@@ -34,10 +34,13 @@ public:
 	void Reset();
 	//provide a method for counting bulls and cows and incrementing turn number
 	//Counts bull & cows assuming valid guess
-	fBullCowCount SubmitGuess(Fstring);
+	fBullCowCount SubmitValidGuess(Fstring);
 
 private:	
 	INT32 MyCurrentTry;
 	INT32 MyMaxTries;
 	Fstring MyHiddenWord;
+	bool bGameIsWon;
+	bool IsIsogram(Fstring) const;
+	bool IsLowerCase(Fstring) const;
 };

@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "fBullCowGame.h"
+#include <map>
+#define TMap std::map
 
 using INT32 = int;
 
@@ -12,6 +14,7 @@ void fBullCowGame::Reset()
 	MyMaxTries = MAX_TRIES;
 
 	MyCurrentTry = 1;
+	bGameIsWon = false;
 	return;
 }
 
@@ -35,17 +38,12 @@ INT32 fBullCowGame::GetHiddenWordLength() const
 	return MyHiddenWord.length();
 }
 
-fBullCowCount fBullCowGame::SubmitGuess(Fstring UserGuess)
+fBullCowCount fBullCowGame::SubmitValidGuess(Fstring UserGuess)
 {
-	//Increment the turn number
 	MyCurrentTry++;
-	//setup a return variable
 	fBullCowCount BullCowCount;
-	//Loop through all letters in guess
-		//compare letters against hidden word
-			//if theyy match then
-				// increment bulls if they're in the same place
-				// increment cows if not
+
+	//loop through all letters in hidden word and guess
 	for (INT32 i = 0; i < UserGuess.length(); i++)
 	{
 		if (UserGuess[i] == MyHiddenWord[i])
@@ -60,23 +58,70 @@ fBullCowCount fBullCowGame::SubmitGuess(Fstring UserGuess)
 			}
 		}
 	}
+	if (BullCowCount.bulls == MyHiddenWord.length())
+	{
+		bGameIsWon = true;
+	}
+	else
+	{
+		bGameIsWon = false;
+	}
 
 	return BullCowCount;
 }
 
+bool fBullCowGame::IsIsogram(Fstring Guess) const
+{
+	if (Guess.length() <= 1)
+	{
+		return true;
+	}
+	//Create hashtable
+	//compare letter to table
+	TMap<char, bool> LetterSeen;
+	for (auto Letter : Guess)
+	{
+		Letter = tolower(Letter);
+		if (LetterSeen[Letter]){
+			return false;
+		} else {
+			// add The letter to the map as seen
+			LetterSeen[Letter] = true;
+		}
+	}
+	// if letter matches mark it
+	// if letter gets two matches return false
+	return true;
+}
+
+bool fBullCowGame::IsLowerCase(Fstring Guess) const
+{
+	for (auto Letter : Guess)
+	{
+		if (islower(Letter))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+}
+
 bool fBullCowGame::IsGameWon() const
 {
-	return false;
+	return bGameIsWon;
 }
 
 EGuessStatus fBullCowGame::CheckGuessValidity(std::string Guess) const
 {
 	// If the guess isn't an isogram, return an error
-	if (false)
+	if (!IsIsogram(Guess))
 	{
 		return EGuessStatus::Not_Isogram;
 	}
-	else if (false) //if the guess isn't all lower case
+	else if (!IsLowerCase(Guess)) //if the guess isn't all lower case
 	{
 		return EGuessStatus::Not_Lowercase;
 	}
