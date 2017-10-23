@@ -10,15 +10,28 @@ struct fBullCowCount
 	INT32 cows = 0;
 };
 
+enum EGuessStatus {
+	Invalid_Status,
+	OK,
+	Not_Isogram,
+	Valid,
+	Invalid_Input,
+	Wrong_Length,
+	Not_Lowercase,
+
+};
+
 class fBullCowGame {
 public:
 	fBullCowGame(); //constructor
 	INT32 GetMaxTries() const;
 	INT32 GetCurrentTry() const;
-	bool IsGameWon() const;
+	INT32 GetHiddenWordLength() const;
 
-	void Reset(); //Make a more rich return value
-	bool CheckGuessValidity(Fstring); //TODO Make more rich return value
+	bool IsGameWon() const;
+	EGuessStatus CheckGuessValidity(Fstring) const;
+
+	void Reset();
 	//provide a method for counting bulls and cows and incrementing turn number
 	//Counts bull & cows assuming valid guess
 	fBullCowCount SubmitGuess(Fstring);
