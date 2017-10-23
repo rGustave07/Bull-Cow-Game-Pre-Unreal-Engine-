@@ -23,7 +23,7 @@ enum EGuessStatus {
 
 class fBullCowGame {
 public:
-	fBullCowGame(); //constructor
+	fBullCowGame();
 	INT32 GetMaxTries() const;
 	INT32 GetCurrentTry() const;
 	INT32 GetHiddenWordLength() const;
@@ -32,8 +32,6 @@ public:
 	EGuessStatus CheckGuessValidity(Fstring) const;
 
 	void Reset();
-	//provide a method for counting bulls and cows and incrementing turn number
-	//Counts bull & cows assuming valid guess
 	fBullCowCount SubmitValidGuess(Fstring);
 
 private:	

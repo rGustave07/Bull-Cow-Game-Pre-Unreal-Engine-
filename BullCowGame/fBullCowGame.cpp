@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#pragma once
 #include "fBullCowGame.h"
 #include <map>
 #define TMap std::map
@@ -25,6 +26,8 @@ fBullCowGame::fBullCowGame()
 
 INT32 fBullCowGame::GetMaxTries() const
 {
+	TMap<INT32, INT32> WordLengthToMaxTries{ {3, 5}, {4,5}, {6,5} };
+	return WordLengthToMaxTries[MyHiddenWord.length()];
 	return MyMaxTries;
 }
 
@@ -134,5 +137,5 @@ EGuessStatus fBullCowGame::CheckGuessValidity(std::string Guess) const
 		return EGuessStatus::OK;
 	}
 
-	return EGuessStatus::OK; //TODO make actual error;
+	return EGuessStatus::OK;
 }
